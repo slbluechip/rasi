@@ -95,6 +95,7 @@ Released   : 20120617
 				<ul>
 					<li>
 						<h2>Login</h2>
+                                           
 						<ul>
 						<?php
 
@@ -109,6 +110,11 @@ Released   : 20120617
 						  echo "</form>";
 						?>
 						</ul>
+                                                   <a href="http://localhost/rasi-master/form.php">Sign up</a>
+
+					</li>
+					<li>
+						
 					</li>
 				</ul>
 			</div>

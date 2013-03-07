@@ -8,7 +8,7 @@
 
 
 //Input vaildation and the dbase code
-        if ( $_GET["op"] == "reg" )
+    /*    if ( $_GET["op"] == "reg" )
   {
   $bInputFlag = false;
   foreach ( $_POST as $field )
@@ -27,37 +27,48 @@
         {
         die( "Problem with your registration info. "
     ."Please go back and try again.");
-        }
+        }*/
+        $DB = new DBConfig();
+	$DB -> config();
+	$dbhandle =$DB -> conn();
 
   // Fields are clear, add user to database
   //  Setup query
-  $q = "INSERT INTO `dbUsers` (`username`,`password`,`email`) "
-        ."VALUES ('".$_POST["username"]."', "
-        ."PASSWORD('".$_POST["password"]."'), "
-        ."'".$_POST["email"]."')";
+   
+  $q = "INSERT INTO users (username,password,email) 
+        VALUES ('$_POST[username]','$_POST[password]','$_POST[email]')";
   //  Run query
   $r = mysql_query($q);
   
   // Make sure query inserted user successfully
-  if ( !mysql_insert_id() )
+  /*if ( !mysql_insert_id($this->db) )
         {
-        die("Error: User not added to database.");
-        }
-  else
-        {
-        // Redirect to thank you page.
-        Header("Location: register.php?op=thanks");
-        }
-  } // end if
+        die("Error: User not added to database.");*/
+  if (!$r)
+{
+    die("Hey,".mysql_error());    // Thanks to Pekka for pointing this out.
+}
+       
+ 
+ else if ($r)
+{
+    //Header("Location: words.php?op=thanks");
+   print "Thank You for registering, ".$_POST[username]." To view the wordlist, click <a href='http://localhost/rasi-master/words.php'> here</a>";
+   
+}
+
+
+   
+ // } // end if
 
 
 //The thank you page
-        elseif ( $_GET["op"] == "thanks" )
+ /*       elseif ( $_GET["op"] == "thanks" )
   {
   echo "<h2>Thanks for registering!</h2>";
-  }
+  }*/
   
-//The web form for input ability
+/*The web form for input ability
         else
   {
   echo "<form action=\"?op=reg\" method=\"POST\">\n";
@@ -66,6 +77,6 @@
   echo "Email Address: <input name=\"email\" MAXLENGTH=\"25\"><br />\n";
   echo "<input type=\"submit\">\n";
   echo "</form>\n";
-  }
+  }*/
         // EOF
         ?>
