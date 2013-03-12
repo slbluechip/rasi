@@ -32,9 +32,12 @@
         // Login good, create session variables
         $_SESSION["id"] = $row{'id'};
         $_SESSION["username"] = $row{'username'};
-
+        $_SESSION["role"]=$row{'role'};
         // Redirect to member page
-        Header("Location: words.php");
+        if($_SESSION["role"]==2)
+         Header("Location: words.php");
+        else
+         Header("Location: admin.php");
         }
   else
         {

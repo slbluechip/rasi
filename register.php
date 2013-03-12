@@ -32,11 +32,9 @@
 	$DB -> config();
 	$dbhandle =$DB -> conn();
 
-  // Fields are clear, add user to database
-  //  Setup query
-   
-  $q = "INSERT INTO users (username,password,email) 
-        VALUES ('$_POST[username]','$_POST[password]','$_POST[email]')";
+  
+  $q = "INSERT INTO users (username,password,email,role) 
+        VALUES ('$_POST[username]','$_POST[password]','$_POST[email]',2)";
   //  Run query
   $r = mysql_query($q);
   
@@ -56,8 +54,7 @@
    print "Thank You for registering, ".$_POST[username]." To view the wordlist, click <a href='http://localhost/rasi-master/words.php'> here</a>";
    
 }
-
-
+$DB ->close();
    
  // } // end if
 

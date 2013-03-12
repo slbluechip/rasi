@@ -17,7 +17,7 @@ class DBConfig {
         $this->persistant = false;
     }
    
-    function conn($host='localhost',$user='mer',$pass='redlotus',$db='rasi'){ // connection function
+    function conn($host='localhost',$user='root',$pass='redlotus',$db='rasi'){ // connection function
         $this->host = $host;
         $this->user = $user;
         $this->pass = $pass;

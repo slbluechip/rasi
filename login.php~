@@ -32,7 +32,7 @@
         // Login good, create session variables
         $_SESSION["id"] = $row{'id'};
         $_SESSION["username"] = $row{'username'};
-
+        $_SESSION["role"]=$row{'role'};
         // Redirect to member page
         Header("Location: words.php");
         }
@@ -95,7 +95,7 @@ Released   : 20120617
 				<ul>
 					<li>
 						<h2>Login</h2>
-                                           <a href="http://localhost/rasi-master/form.php">Sign up</a>
+                                           
 						<ul>
 						<?php
 
@@ -110,6 +110,7 @@ Released   : 20120617
 						  echo "</form>";
 						?>
 						</ul>
+                                                   <a href="http://localhost/rasi-master/form.php">Sign up</a>
 
 					</li>
 					<li>
