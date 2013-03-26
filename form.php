@@ -39,6 +39,7 @@
 <body>
 <form name="myform" id="myform" action="" method="POST">  
 <!-- The Name and password form fields -->
+<fieldset>
     <label for="username" id="username_label">Username</label>  
     <input type="text" name="username" id="username" size="30" value=""/>  
 	<br>
@@ -50,6 +51,7 @@
     <input type="text" name="email" id="email" size="30" value=""/> 
 	<br>
 <!-- The Submit button -->
+</fieldset>
 	<input type="submit" name="submit" value="Submit"> 
 </form>
 <!-- We will output the results from process.php here -->

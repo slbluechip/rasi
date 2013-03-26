@@ -24,7 +24,7 @@
 	{
 		if($_GET["Save"]!="")
 		{
-		  $q = "INSERT INTO `meanings` (`meaning`,`languageid`,`wordid`) "
+		  $q = "INSERT INTO `temp_meanings` (`meaning`,`languageid`,`word_id`) "
 			."VALUES ('".$_POST["txtMeaning"]."', "
 			."'".$_POST["cmbLanguage"]."', "
 			."'".$_POST["hidWordId"]."')";
@@ -67,6 +67,8 @@ Released   : 20120617
 
 		document.getElementById("td1").style.display="";
 		document.getElementById("td2").style.display="";
+                document.getElementById("td2a").style.display="";
+                document.getElementById("td2b").style.display="";
 		document.getElementById("td3").style.display="";
 		document.getElementById("td4").style.display="";
 	}
@@ -129,9 +131,10 @@ Released   : 20120617
 				<?php
 				  echo "<table border=\"0\"/><tr>";
 				  echo "<td><a href=\"#\" onclick=\"fnAddNew();\">Add New</a></td>";
-				  echo "<td style=\"display:none\" id=\"td1\"><input type=\"text\" name=\"txtMeaning\" size=\"15\"></td>";
+				  echo "<td style=\"display:none\" id=\"td1\"><input type=\"text\" name=\"txtMeaning\" size=\"15\" placeholder=\"Meaning\"></td>";
 				  echo "<td style=\"display:none\" id=\"td2\"><select id=\"cmbLanguage\"";
 				  echo "name=\"cmbLanguage\">";
+                                  
 				?>
 					<?php while ($row = mysql_fetch_array($resultLanguages, MYSQL_ASSOC)){
 					echo "<option value=".$row['id'].">".$row['language']."</option>";
@@ -139,6 +142,8 @@ Released   : 20120617
 					?>
 				<?php
  				  echo "</select></td>";
+                                  echo "<td style=\"display:none\" id=\"td2a\"><input type=\"text\" name=\"txtComment\" size=\"15\" placeholder=\"Comment\"></td>";
+                                  echo "<td style=\"display:none\" id=\"td2b\"><input type=\"text\" name=\"txtReference\" size=\"15\" placeholder=\"Reference\"></td>";
 				  echo "<td style=\"display:none\" id=\"td3\"><a href=\"#\" onclick=\"fnSave();\">Save</a></td>";
 				  echo "<td style=\"display:none\" id=\"td4\"><a href=\"#\" id=\"action\" onclick=\"fnCancel();\">Cancel</a></td>";
 				  echo "</tr>";
