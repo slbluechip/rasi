@@ -1,3 +1,11 @@
+<style type="text/css" > @import "jquery.dataTables.css" </style>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="https://ban-ga-truc-tuyen-ttl2e.googlecode.com/svn-history/r8/trunk/js/jquery.dataTables.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+ $('#rasi-admin').dataTable();
+});
+</script>
 <?php
 
        session_start();
@@ -72,7 +80,8 @@
 $i=0;        
         $result = mysql_query($q);
 echo "<form action=\"?op=save \" method=\"POST\">";
-echo "<table border='1'>
+echo "<table border='1' id=\"rasi-admin\" class=\"dataTable\">
+<thead>
 <tr>
 <th>Word</th>
 <th>Meaning</th>
@@ -85,8 +94,9 @@ echo "<table border='1'>
 <th>Reason</th>
 <th>Status</th>
 <th>Admin's Remarks</th>
-</tr>";
-
+</tr>
+</thead>";
+echo "<tbody>";
 
         while($row = mysql_fetch_array($result)) 
 { 
@@ -114,6 +124,7 @@ $i++;
        
         
  echo "</table>";
+ echo "</tbody>";
  echo "<input type=\"submit\" value=\"Submit\">";
  echo "</form>";
   
