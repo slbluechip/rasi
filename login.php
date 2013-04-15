@@ -113,7 +113,7 @@ Released   : 20120617
 						  echo "</form>";
 						?>
 						</ul>
-                                                   <a href="http://localhost/rasi-master/form.php">Sign up</a>
+                                                   <a href="form.php">Sign up</a>
 
 					</li>
 					<li>

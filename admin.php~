@@ -22,6 +22,7 @@ $(document).ready(function(){
 	$dbhandle =$DB -> conn();
          if(isset($_GET["op"]))
 	{	$val=$_SESSION['count'];
+                
                 if ($_GET["op"] == "save")
 		{ 
                     #echo "decision 3 is ".$_POST['decision'][3];

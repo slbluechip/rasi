@@ -1,3 +1,6 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <style type="text/css" > @import "jquery.dataTables.css" </style>
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="https://ban-ga-truc-tuyen-ttl2e.googlecode.com/svn-history/r8/trunk/js/jquery.dataTables.js"></script>
@@ -6,6 +9,7 @@ $(document).ready(function(){
  $('#rasi-admin').dataTable();
 });
 </script>
+</head>
 <?php
 
        session_start();
@@ -130,3 +134,4 @@ $i++;
 $_SESSION['count'] = $i;
 $DB ->close();
 ?>
+</html>
