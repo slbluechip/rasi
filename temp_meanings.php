@@ -18,7 +18,7 @@
 	//execute the SQL query and return records
 	$resultLanguages = mysql_query($qLlanguages);
 
-	//execute the SQL query and return records
+	
         
             if(isset($_GET["rate"]))
               {    echo "Rate is set";

@@ -47,12 +47,12 @@
                                       {
                                         die("Hey,".mysql_error());    // Thanks to Pekka for pointing this out.
                                       }
-                                  //else 
+                                  else 
                                        
-                                      /*if($x==$meanings_count-1)
+                                      if($x==$meanings_count-1)
 					{
                                           exit();
-					}*/
+					}
 
 				
                                }
