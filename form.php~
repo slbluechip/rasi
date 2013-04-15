@@ -22,7 +22,7 @@
                                 password: "Password must be provided",
 				email: "A valid email is required",
 			},
-			submitHandler: function(form) {
+			submitHandler: function(form) {$("#myform").hide();
 				// do other stuff for a valid form
 				$.post('register.php', $("#myform").serialize(), function(data) {
 					$('#results').html(data);
@@ -31,7 +31,7 @@
 			}
 		});
                 
-            $('#rasi-admin').dataTable();
+            
 	});
 	</script>
 	<style>
@@ -39,6 +39,15 @@
 	</style>
 </head>
 <body>
+<?php
+if(isset($_GET["op"]))
+ { if($_GET["op"]=='error')
+    {
+       echo $_GET['err'];
+    }
+
+ }
+?>
 <form name="myform" id="myform" action="" method="POST">  
 <!-- The Name and password form fields -->
 <fieldset>

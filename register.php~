@@ -45,7 +45,7 @@
   if (!$r)
 {
     $err= mysql_error();
-    Header("Location: form.php?op=error&&err=$err");
+    Header("Location: form.php?op=error");
     //die("Hey,".mysql_error());
          // Thanks to Pekka for pointing this out.
 }

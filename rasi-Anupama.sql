@@ -57,7 +57,11 @@ CREATE TABLE `meanings` (
   `modifiedon` datetime NOT NULL,
   `comments` varchar(250) CHARACTER SET utf8 NOT NULL,
   `reference` varchar(250) CHARACTER SET utf8 NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `wordid` (`wordid`),
+  CONSTRAINT `meanings_ibfk_1` FOREIGN KEY (`wordid`) REFERENCES `words` (`id`),
+  CONSTRAINT `meanings_ibfk_2` FOREIGN KEY (`wordid`) REFERENCES `words` (`id`),
+  CONSTRAINT `meanings_ibfk_3` FOREIGN KEY (`wordid`) REFERENCES `words` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -89,7 +93,7 @@ CREATE TABLE `rating` (
   PRIMARY KEY (`id`),
   KEY `temp_meaning_id` (`temp_meaning_id`),
   CONSTRAINT `rating_ibfk_1` FOREIGN KEY (`temp_meaning_id`) REFERENCES `temp_meanings` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -133,7 +137,7 @@ CREATE TABLE `temp_meanings` (
 
 LOCK TABLES `temp_meanings` WRITE;
 /*!40000 ALTER TABLE `temp_meanings` DISABLE KEYS */;
-INSERT INTO `temp_meanings` VALUES (6,'storehouse of data',1,'Anupama',NULL,'2013-03-26 11:28:02',NULL,'base for data','dictionary','P',18);
+INSERT INTO `temp_meanings` VALUES (6,'storehouse of data',1,'Anupama',NULL,'2013-03-26 11:28:02',NULL,'base for data','dictionary','P',18),(7,'trial',1,'Anupama',NULL,'2013-04-04 10:43:09',NULL,'','','P',20),(8,'trial',1,'Anupama',NULL,'2013-04-04 10:43:14',NULL,'','','P',20);
 /*!40000 ALTER TABLE `temp_meanings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -202,4 +206,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-03-26 17:41:23
+-- Dump completed on 2013-04-06 11:55:34

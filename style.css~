@@ -640,7 +640,7 @@ a:hover {
 #banner {
 }
 
-div.star
-{
-width:133px;
+li.approved{
+float:left;
 }
+

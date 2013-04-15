@@ -22,6 +22,7 @@ $(document).ready(function(){
 	$dbhandle =$DB -> conn();
          if(isset($_GET["op"]))
 	{	$val=$_SESSION['count'];
+                
                 if ($_GET["op"] == "save")
 		{ 
                     #echo "decision 3 is ".$_POST['decision'][3];
@@ -76,7 +77,7 @@ $(document).ready(function(){
 		}
 
          }
-        $q="select w.word,w.id,t.meaning,t.createdby,t.modifiedby,t.comments,t.reference,t.createdon,t.modifiedon,r.rating,r.rated_by,r.reason from words w join  temp_meanings t on w.id=t.word_id left join rating r on t.id=r.temp_meaning_id";
+        $q="select w.word,w.id,t.meaning,t.createdby,t.modifiedby,t.comments,t.reference,t.createdon,t.modifiedon from words w join  temp_meanings t on w.id=t.word_id ";
 $i=0;        
         $result = mysql_query($q);
 echo "<form action=\"?op=save \" method=\"POST\">";
@@ -89,9 +90,6 @@ echo "<table border='1' id=\"rasi-admin\" class=\"dataTable\">
 <th>Comments</th>
 <th>Reference</th>
 <th>Created on</th>
-<th>Rating</th>
-<th>Rated by</th>
-<th>Reason</th>
 <th>Status</th>
 <th>Admin's Remarks</th>
 </tr>
@@ -103,14 +101,15 @@ echo "<tbody>";
   echo "<tr>";
   echo "<input type=\"hidden\" name=\"wordid[]\" value=" . $row['id'] . " />";
   echo "<td>"."<input type=\"text\" name=\"word[]\" value=" . $row['word'] . " /></td>";
-  echo "<td>"."<input type=\"text\" name=\"meaning[]\" value=" . $row['meaning'] . " /></td>";
+  ///echo "<td>"."<input type=\"text\" name=\"meaning[]\" value=" . $row['meaning'] . " /></td>";
+  echo '<td><input type=text name= \'meaning[]\' value="'. $row['meaning'] .'"/></td>';
   echo "<td>"."<input type=\"text\" name=\"createdby[]\" value=" . $row['createdby'] . " /></td>";
-  echo "<td>"."<input type=\"text\" name=\"comments[]\" value=" . $row['comments'] . " /></td>";
-  echo "<td>"."<input type=\"text\" name=\"reference[]\" value=" . $row['reference'] . " /></td>";
+  //echo "<td>"."<input type=\"text\" name=\"comments[]\" value=" . $row['comments'] . " /></td>";
+  //echo "<td>"."<input type=\"text\" name=\"reference[]\" value=" . $row['reference'] . " /></td>";
+  echo '<td><input type=text name= \'comments[]\' value="'. $row['comments'] .'"/></td>';
+  echo '<td><input type=text name= \'reference[]\' value="'. $row['reference'] .'"/></td>';
   echo "<td>"."<input type=\"text\" name=\"createdon[]\"value=" . $row['createdon'] . " /></td>";
-  echo '<td><input type=text name= \'rating[]\' value="'. $row['rating'] .'"/></td>';
-  echo '<td><input type=text name= \'rated_by[]\'value="'.$row['rated_by'].'"/></td>';
-  echo '<td><input type=text name= \'reason[]\'value="'.$row['reason'].'" /></td>';
+  
   
   echo "<td><select name='decision[]' >
   <option value='approve'>Approve</option>

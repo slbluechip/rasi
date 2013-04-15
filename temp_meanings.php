@@ -12,14 +12,58 @@
 	
 	$q = "SELECT * FROM `meanings` "
 		."WHERE `wordid`='".$_GET["wordid"]."' ";
+        
 
 	$qLlanguages="SELECT * FROM `languages` ";
 	//execute the SQL query and return records
 	$resultLanguages = mysql_query($qLlanguages);
 
 	//execute the SQL query and return records
+        
+            if(isset($_GET["rate"]))
+              {    echo "Rate is set";
+                   if($_GET["rate"]=="Yes")
+                 {    //echo $_GET["rate"];
+                      $curr_ratings[]=array();
+                      $curr_ratings=$_POST['score'];
+                      $meanings_count=count($curr_ratings);
+                      echo("No:of meanings=".$meanings_count);
+                      $meaning_ids=$_SESSION['meaning_id'];
+                      $meanings=$_SESSION['meanings'];
+                      $reasons=$_POST['reason'];
+                      //echo "There are $meanings_count meanings";
+                      for($x=0;$x<$meanings_count;$x++ )
+                        {  
+                              if($curr_ratings[$x]!="")
+                              { 
+                                echo $_SESSION['meaning_id'][$x];
+                                $q="INSERT INTO rating (word,meaning,rated_by,rating,reason,meaning_id) 
+                                    VALUES('$_SESSION[word]','$meanings[$x]','$_SESSION[username]',
+                                             $curr_ratings[$x]
+                                             ,'$reasons[$x]',$meaning_ids[$x] )  ";
 
- 
+				$r = mysql_query($q);
+                                   if (!$r)
+                                      {
+                                        die("Hey,".mysql_error());    // Thanks to Pekka for pointing this out.
+                                      }
+                                  else 
+                                       
+                                      if($x==$meanings_count-1)
+					{
+                                          exit();
+					}
+
+				
+                               }
+                            
+                          
+			}
+                   }    
+                       
+                 }
+          
+	
 	if(isset($_GET["Save"]))
 	{
 		if($_GET["Save"]!="")
@@ -45,7 +89,7 @@
 	}
 
 	$result = mysql_query($q);
-
+        
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -68,7 +112,68 @@ Released   : 20120617
 <title>rasi</title>
 <link href="http://fonts.googleapis.com/css?family=Abel" rel="stylesheet" type="text/css" />
 <link href="style.css" rel="stylesheet" type="text/css" media="screen" />
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="/rasi-master/raty-master/lib/jquery.raty.min.js"></script>
+
 <script type="text/javascript">
+        $(document).ready(function(){
+         
+        $('div.star').raty();
+/*$.ajaxSetup({
+    type: "POST",
+    url: "current_rating.php"
+});
+ 
+          $('input#rate').click(function()
+{    var id=new Array();
+      id=$('input[name=\'score\']').val();
+      var id0=id[0];   
+        
+      $.ajax({ data: id });
+
+           $.post("current_rating.php", { id: "John" } );
+          });*/
+        /*$('div.star img').raty({
+          click: function(score,e) {
+               $.ajax({
+		type: 'POST',
+                url: '/rasi-master/current_rating.php',
+                data: {'score':score}
+
+                });
+           }
+ 
+        });*/
+        /*$('div.star').each(function() {
+            $('div#'(this).attr("id")).raty();
+            $curr_ratings[i] = this.id.raty('score');
+            alert($curr_ratings[i]);
+             i++;
+            
+        });
+           $('#rate').on('click',function(event)
+{      
+    $.ajax(
+    {
+        url: "current_rating.php",
+        type: "POST",
+        data: {score: score},
+        dataType: "html",
+        success: function(data)
+        {
+            window.location = 'http://localhost/rasi-master/current_rating.php';
+        }
+    });
+});*/
+           $('input[name=\'score\']').each(function() {
+
+                  $(this).attr('name','score[]');
+
+             });
+          
+        });
+          
+	
 	function fnAddNew()
 	{
 
@@ -93,7 +198,17 @@ Released   : 20120617
 		frmMeanings.method="post";
 		frmMeanings.submit();
 	}
+       
+        function saveRating()
+         {
 
+		frmMeanings.action="?rate=Yes&wordid="+document.getElementById("hidWordId").value;
+		frmMeanings.method="post";
+		frmMeanings.submit();
+
+         }
+       
+         
 </script>
 
 </head>
@@ -122,10 +237,47 @@ Released   : 20120617
 			<div id="column1">
 				<h2><?php if(isset($_GET["word"])) echo $_GET["word"] ?></h2>
 				<ul>
-				
-					<?php while ($row = mysql_fetch_array($result, MYSQL_ASSOC)){
-					echo "<li>".$row['meaning']."</li>";
+				        
+					<?php
+                                        $i=0;
+                                      # echo "<form action=\"?op=rate \" method=\"POST\">";
+                                         
+                                        while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+                                        { $word=$_GET['word'] ;
+                                          $meaning=$row['meaning'];
+                                          $meaning_id=$row['id'];
+                                          $_SESSION['word']=$word;
+                                          $_SESSION['meanings'][$i]=$meaning;
+                                          $_SESSION['meaning_id'][$i]=$meaning_id;
+                                          echo"<input type=\"text\" value=\"$meaning\" readonly/> \n";
+                                          
+                                          $avg = mysql_query("select avg(rating) from rating where word =  '$word ' and   meaning = '$meaning'" );
+                                          if($avg)
+                                           {
+                                            while($row = mysql_fetch_array($avg))
+{
+      $rating=$row['avg(rating)'];
+      echo "</br>";
+      echo " The average rating on 5 is: <input type=\"text\" value= \"$rating\" readonly/>";
+
+}
+
+                                           }
+                                          else
+                                            die("Hey,".mysql_error());    // Thanks to Pekka for pointing this out. 
+                                           
+					echo "<div class=\"star\" id=\"$i\" ><li class=\"approved\">".$row['meaning']."<input type=\"text\" name=\"reason[]\" placeholder=\"Rater's comments \"/></li></div>";
+                                        
+                                        $i++;
+					
 					}
+                                        $_SESSION['meaning_count']=$i;
+                                        #echo "<input type=\"submit\" name=\"submit\" value=\"Rate\"></input>";
+                                        /*echo "<input type=\"button\" id=\"rate\" value=\"rate\" onclick=\"javascript:window.location.href='current_rating.php'\"></input>"; */
+                                        echo "<a href=\"#\" id=\"rate\"  onclick=\"saveRating();\" >Rate</a>";
+                                    #    echo "</form>";
+                                        $_SESSION['word']=$_GET['word'];
+                                        
 					?>
 
 				</ul>
@@ -166,6 +318,7 @@ Released   : 20120617
 	<input type="hidden" value="<?php echo $_GET['wordid'] ?>" id="hidWordId" name="hidWordId">
 	<input type="hidden" value="<?php echo $_GET['word'] ?>" id="hidWord" name="hidWord">
 </form>
+
 </body>
 </html>
 
