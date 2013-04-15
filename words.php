@@ -82,7 +82,7 @@ Released   : 20120617
 				?>		
 			</ul>
 		</div>
-		<!-- end #page --> 
+		
 	</div>
 </div>
 <!-- end #footer -->
