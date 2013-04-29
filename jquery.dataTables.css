@@ -169,8 +169,23 @@ table.dataTable tr td.sorting_3 { background-color: #F9F9FF; }
 .paging_full_numbers a.paginate_active {
 	background-color: #99B3FF;
 }
+span.first,span.previous,span.next,span.last
+{
+ 
+color: #0063DC;
+text-decoration: none;
 
+}
+.paging_full_numbers 
+{
+background-color: #DDD;
+}
 
+span.fg-button.ui-button
+{
+color: #0063DC;
+text-decoration: none;
+}
 /*
  * Processing indicator
  */
