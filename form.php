@@ -61,7 +61,7 @@ if(isset($_GET["op"]))
     <label for="email" id="email_label">Email</label>  
     <input type="text" name="email" id="email" size="30" value=""/> 
 	<br>
-
+<!--fieldest -->
 </fieldset>
 	<input type="submit" name="submit" value="Submit"> 
 </form>
