@@ -8,7 +8,7 @@
 		{
 			  if (!$_POST["username"] || !$_POST["password"])
 		{
-		die("You need to provide a username and password.");
+		die("You need to provide your username and password.");
 		}
   
   // Create query
