@@ -1,5 +1,7 @@
 <?php
         session_start();
+        
+
         // dBase file
         include "dbConfig.php";
   
@@ -57,7 +59,7 @@ Released   : 20120617
 						<h2>Words</h2>
 						<ul>
 							<?php while ($row = mysql_fetch_array($result, MYSQL_ASSOC)){
-							echo "<li><a href=meanings.php?wordid=".$row['id']."&word=".$row['word'].">". $row['word']."</a>";
+							echo "<li><a href=temp_meanings.php?wordid=".$row['id']."&word=".$row['word'].">". $row['word']."</a>";
 							
 							}
 							?>			
@@ -80,7 +82,7 @@ Released   : 20120617
 				?>		
 			</ul>
 		</div>
-		<!-- end #page --> 
+		
 	</div>
 </div>
 <!-- end #footer -->

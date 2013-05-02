@@ -8,7 +8,7 @@
 		{
 			  if (!$_POST["username"] || !$_POST["password"])
 		{
-		die("You need to provide a username and password.");
+		die("You need to provide your username and password.");
 		}
   
   // Create query
@@ -32,9 +32,12 @@
         // Login good, create session variables
         $_SESSION["id"] = $row{'id'};
         $_SESSION["username"] = $row{'username'};
-
+        $_SESSION["role"]=$row{'role'};
         // Redirect to member page
-        Header("Location: words.php");
+        if($_SESSION["role"]==2)
+         Header("Location: words.php");
+        else
+         Header("Location: admin.php");
         }
   else
         {
@@ -95,6 +98,7 @@ Released   : 20120617
 				<ul>
 					<li>
 						<h2>Login</h2>
+                                           
 						<ul>
 						<?php
 
@@ -109,6 +113,11 @@ Released   : 20120617
 						  echo "</form>";
 						?>
 						</ul>
+                                                   <a href="form.php">Sign up</a>
+
+					</li>
+					<li>
+						
 					</li>
 				</ul>
 			</div>
