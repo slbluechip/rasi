@@ -66,6 +66,7 @@ if(isset($_GET["op"]))
 	<input type="submit" name="submit" value="Submit"> 
 </form>
 <!-- We will output the results from process.php here -->
-<div id="results"><div>
+<div id="results">
+</div>
 </body>
 </html>
