@@ -46,7 +46,7 @@ if(isset($_GET["op"]))
        echo $_GET['err'].", please change your username";
     }
 
- }
+  }
 ?>
 <form name="myform" id="myform" action="" method="POST">  
 <!-- The Name and password form fields -->
