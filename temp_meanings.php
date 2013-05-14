@@ -37,8 +37,8 @@
                               if($curr_ratings[$x]!="")
                               { 
                                 echo $_SESSION['meaning_id'][$x];
-                                $q="INSERT INTO rating (word,meaning,rated_by,rating,reason,meaning_id) 
-                                    VALUES('$_SESSION[word]','$meanings[$x]','$_SESSION[username]',
+                                $q="INSERT INTO rating (meaning,rated_by,rating,reason,meaning_id) 
+                                    VALUES('$meanings[$x]','$_SESSION[username]',
                                              $curr_ratings[$x]
                                              ,'$reasons[$x]',$meaning_ids[$x] )  ";
 
@@ -113,58 +113,12 @@ Released   : 20120617
 <link href="http://fonts.googleapis.com/css?family=Abel" rel="stylesheet" type="text/css" />
 <link href="style.css" rel="stylesheet" type="text/css" media="screen" />
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-<script src="/rasi-master/raty-master/lib/jquery.raty.min.js"></script>
+<script src="/rasi/raty-master/lib/jquery.raty.min.js"></script>
 
 <script type="text/javascript">
         $(document).ready(function(){
          
         $('div.star').raty();
-/*$.ajaxSetup({
-    type: "POST",
-    url: "current_rating.php"
-});
- 
-          $('input#rate').click(function()
-{    var id=new Array();
-      id=$('input[name=\'score\']').val();
-      var id0=id[0];   
-        
-      $.ajax({ data: id });
-
-           $.post("current_rating.php", { id: "John" } );
-          });*/
-        /*$('div.star img').raty({
-          click: function(score,e) {
-               $.ajax({
-		type: 'POST',
-                url: '/rasi-master/current_rating.php',
-                data: {'score':score}
-
-                });
-           }
- 
-        });*/
-        /*$('div.star').each(function() {
-            $('div#'(this).attr("id")).raty();
-            $curr_ratings[i] = this.id.raty('score');
-            alert($curr_ratings[i]);
-             i++;
-            
-        });
-           $('#rate').on('click',function(event)
-{      
-    $.ajax(
-    {
-        url: "current_rating.php",
-        type: "POST",
-        data: {score: score},
-        dataType: "html",
-        success: function(data)
-        {
-            window.location = 'http://localhost/rasi-master/current_rating.php';
-        }
-    });
-});*/
            $('input[name=\'score\']').each(function() {
 
                   $(this).attr('name','score[]');

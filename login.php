@@ -1,53 +1,3 @@
-<?php
-        session_start();
-        // dBase file
-        include "dbConfig.php";
-
-		if(isset($_GET["op"]))
-		if ($_GET["op"] == "login")
-		{
-			  if (!$_POST["username"] || !$_POST["password"])
-		{
-		die("You need to provide your username and password.");
-		}
-  
-  // Create query
-
-	$DB = new DBConfig();
-	$DB -> config();
-	$dbhandle =$DB -> conn();
-
-
-	$q = "SELECT * FROM `users` "
-		."WHERE `username`='".$_POST["username"]."' "
-		."AND `password`='".$_POST["password"]."' "
-		."LIMIT 1";
-	//execute the SQL query and return records
-	$result = mysql_query($q);
-
-	
-
-  if ($row = mysql_fetch_array($result))
-        {
-        // Login good, create session variables
-        $_SESSION["id"] = $row{'id'};
-        $_SESSION["username"] = $row{'username'};
-        $_SESSION["role"]=$row{'role'};
-        // Redirect to member page
-        if($_SESSION["role"]==2)
-         Header("Location: words.php");
-        else
-         Header("Location: admin.php");
-        }
-  else
-        {
-        // Login not successful
-        die("Sorry, could not log you in. Wrong login information.");
-        }
-  }
-
-?>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <!--
 Design by Free CSS Templates
@@ -67,20 +17,160 @@ Released   : 20120617
 <meta name="description" content="" />
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>rasi</title>
-<link href="http://fonts.googleapis.com/css?family=Abel" rel="stylesheet" type="text/css" />
+
+
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"></script> 
+
+
 <link href="style.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="popup-style.css" rel="stylesheet" type="text/css" media="screen" />
+<script type="text/javascript" src="js/jquery.leanModal.min.js"></script>
+
+
+
+
+<script>
+$(function() {
+$('a[rel*=leanModal]').leanModal({ top : 200, closeButton: ".modal_close" });		
+});
+</script>
+
+
+<script type="text/javascript">
+	
+$(document).ready(function(){
+		$("#loginform").validate({
+			debug: false,
+			rules: {
+				username: "required",
+                                password: "required"
+			},
+			messages: {
+				username: "Please let us know who you are.",
+                                password: "Password must be provided"
+
+			},
+			submitHandler: function(form) {				
+				$.post('validateLogin.php', $("#loginform").serialize(), function(data) {
+				window.location.href =  data
+				
+				});
+			}
+		});
+                
+            
+	});
+
+
+
+$(document).ready(function(){
+		$("#signupform").validate({
+			debug: false,
+			rules: {
+				username: "required",
+                                password: "required",
+				email	: "required",
+			},
+			messages: {
+				username: "Please let us know who you are.",
+                                password: "Password must be provided",
+				email	: "Please let us know your mail id"
+
+			},
+			submitHandler: function(form) {
+				$.post('register.php', $("#signupform").serialize(), function(data) {
+				window.location.href =  "words.php";				});
+			}
+		});
+                
+            
+	});
+
+</script>
+
+
+
+
+
 </head>
 <body>
+
+	<div id="login">
+		<div id="login-ct">
+			<div id="login-header">
+				<h2 name="cs">Login</h2>
+				<a class="modal_close" href="#"></a>
+			</div>
+		
+			<form name="loginform" id="loginform" action="" method="post">  
+
+			  <div class="txt-fld">
+			    <label for="">Username</label>
+			    <input  class="good_input" id="username" name="username" type="text" />
+
+			  </div>
+			  <div class="txt-fld">
+			    <label for="">Password</label>
+
+			    <input name="password"  id="password"type="text" />
+
+			  </div>
+			  <div class="btn-fld">
+			  	<button type="submit"  name="submit">Login&raquo;</button>
+		          </div>
+			 </form>
+		</div>
+	</div>
+
+	<div id="signup">
+		<div id="signup-ct">
+			<div id="signup-header">
+				<h2>Sign Up</h2>
+				<a class="modal_close" href="#"></a>
+			</div>
+		
+			<form name="signupform" id="signupform" action="" method="post">  
+
+			  <div class="txt-fld">
+			    <label for="">Username</label>
+			    <input id="" class="username" name="username" type="text" />
+
+			  </div>
+			  <div class="txt-fld">
+			    <label for="">Email address</label>
+			    <input id="" name="email" type="text" />
+			  </div>
+			  <div class="txt-fld">
+			    <label for="">Password</label>
+			    <input id="" name="password" type="text" />
+
+			  </div>
+			  <div class="btn-fld">
+			  	<button type="submit"  name="submit">Login&raquo;</button>
+		          </div>
+
+			 </form>
+		</div>
+	</div>
+
+
 <div id="wrapper">
 	<div id="wrapper2">
-		<div id="header" class="container">
-			<div id="logo">
-				<h1><a href="#">rasi</a></h1>
-			</div>
-		</div>
-		<!-- end #header -->
-		<div id="banner-wrapper"></div>
+
 		<div id="page">
+		<!-- end #header -->
+
+
+<div class="menulinks">
+			<strong>Examples:</strong>
+			<a id="go" id="login" rel="leanModal"  href="#login">Join</a> | <a id="go" rel="leanModal"  id ="signup" href="#signup">Sign Up</a>
+		</div>
+
+		<div id="banner-wrapper">
+			
+			<img src="images/banner-image.jpg" width="86%" style="padding-bottom:200px";/>		
+		</div>
 			<div id="content">
 				<div class="post">
 					<h2 class="title"><a href="#">Welcome to rasi </a></h2>
@@ -94,34 +184,6 @@ Released   : 20120617
 				</div>
 			</div>
 			<!-- end #content -->
-			<div id="sidebar">
-				<ul>
-					<li>
-						<h2>Login</h2>
-                                           
-						<ul>
-						<?php
-
-						  echo "<form action=\"?op=login\" method=\"POST\">";
-						  echo "<table border=\"0\"/><tr>";
-						  echo "<td>Username</td><td><input type=\"text\"  name=\"username\" size=\"15\"></td></tr>";
-						  echo "<tr><td>Password</td><td><input type=\"password\" name=\"password\" size=\"15\"><br/></td>";
-						  echo "<tr><td>";
-						  echo "<input type=\"submit\" value=\"Login\">";
-						  echo "</td></tr>";
-						  echo "</tr></table>";
-						  echo "</form>";
-						?>
-						</ul>
-                                                   <a href="form.php">Sign up</a>
-
-					</li>
-					<li>
-						
-					</li>
-				</ul>
-			</div>
-			<!-- end #sidebar -->
 			<div style="clear: both;">&nbsp;</div>
 		</div>
 		<!-- end #page --> 

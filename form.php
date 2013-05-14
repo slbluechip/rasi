@@ -2,29 +2,26 @@
 <html>
 <head>
 	<title>Registeration for user</title> 
-	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="http://code.jquery.com/jquery-migrate-1.1.1.min.js"></script>
-<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"></script> <!-- http://bassistance.de/jquery-plugins/jquery-plugin-validation/ -->
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"></script> 
+
     <script type="text/javascript">
 	$(document).ready(function(){
-		$("#myform").validate({
+		$("#loginform").validate({
 			debug: false,
 			rules: {
 				username: "required",
-                                password: "required",
-				email: {
-					required: true,
-					email: true
-				}
+                                password: "required"
 			},
 			messages: {
 				username: "Please let us know who you are.",
-                                password: "Password must be provided",
-				email: "A valid email is required",
+                                password: "Password must be provided"
+
 			},
 			submitHandler: function(form) {$("#myform").hide();
 				// do other stuff for a valid form
-				$.post('register.php', $("#myform").serialize(), function(data) {
+				$.post('register.php', $("#loginform").serialize(), function(data) {
 					$('#results').html(data);
 					//alert("Form submitted successfully!!!");
 				});
@@ -48,23 +45,35 @@ if(isset($_GET["op"]))
 
   }
 ?>
-<form name="myform" id="myform" action="" method="POST">  
-<!-- The Name and password form fields -->
-<fieldset>
-    <label for="username" id="username_label">Username</label>  
-    <input type="text" name="username" id="username" size="30" value=""/>  
-	<br>
-    <label for="password" id="password_label">Password</label>  
-    <input type="password" name="password" id="password" size="30" value=""/>  
-	<br>
-<!-- The Email form field -->
-    <label for="email" id="email_label">Email</label>  
-    <input type="text" name="email" id="email" size="30" value=""/> 
-	<br>
-<!--fieldest -->
-</fieldset>
-	<input type="submit" name="submit" value="Submit"> 
-</form>
+
+	<div id="login">
+		<div id="login-ct">
+			<div id="login-header">
+				<h2 name="cs">Login</h2>
+				<a class="modal_close" href="#"></a>
+			</div>
+		
+			<form name="loginform" id="loginform" action="">  
+
+			  <div class="txt-fld">
+			    <label for="">Username</label>
+			    <input  class="good_input" id="username" name="username" type="text" />
+
+			  </div>
+			  <div class="txt-fld">
+			    <label for="">Password</label>
+
+			    <input name="password"  id="password"type="text" />
+
+			  </div>
+			  <div class="btn-fld">
+			  	<button type="submit"  name="submit">Login&raquo;</button>
+		          </div>
+			 </form>
+		</div>
+	</div>
+
+
 <!-- We will output the results from process.php here -->
 <div id="results">
 </div>
