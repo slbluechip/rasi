@@ -1,7 +1,7 @@
 <?php
+       	session_start();
 
-
-        session_start();
+      
         // dBase file
         include "dbConfig.php";
   
@@ -10,35 +10,32 @@
 	$dbhandle =$DB -> conn();
 
 	
-	$q = "SELECT * FROM `meanings` "
-		."WHERE `wordid`='".$_GET["wordid"]."' ";
+
+    	if(isset($_GET['word']))
+	$word=$_GET['word'];
+	else
+	$word=$_POST["hidWord"];
+
+    	if(isset($_GET['wordid']))
+	$wordid=$_GET['wordid'];
+	else
+	$wordId=$_POST["hidWordId"];
+
+	
 
 	$qLlanguages="SELECT * FROM `languages` ";
 	//execute the SQL query and return records
 	$resultLanguages = mysql_query($qLlanguages);
 
-	//execute the SQL query and return records
 
- 
-	if(isset($_GET["Save"]))
-	{
-		if($_GET["Save"]!="")
-		{
-		  $q = "INSERT INTO `temp_meanings` (`meaning`,`languageid`,`word_id`) "
-			."VALUES ('".$_POST["txtMeaning"]."', "
-			."'".$_POST["cmbLanguage"]."', "
-			."'".$_POST["hidWordId"]."')";
-	  	//  Run query
-		  $r = mysql_query($q);
+	$q ="SELECT `meaning`,m.`id`,`reference`,`unicodelanguage`,`comments` "
+	." FROM  `meanings` m"
+	." INNER JOIN languages l ON m.languageid = l.id"
+		." WHERE `wordid`='".$wordid."' ";
 
-		$q = "SELECT * FROM `meanings` "
-		."WHERE `wordid`='".$_POST["hidWordId"]."' ";
-
-		}
-	}
 
 	$result = mysql_query($q);
-
+        
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -59,39 +56,154 @@ Released   : 20120617
 <meta name="description" content="" />
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>rasi</title>
-<link href="http://fonts.googleapis.com/css?family=Abel" rel="stylesheet" type="text/css" />
-<link href="style.css" rel="stylesheet" type="text/css" media="screen" />
+
+<link href="styles/popup-style.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="styles/style.css" rel="stylesheet" type="text/css" media="screen" />
+<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="js/jQuery Validation Plugin 1.9.0.js"></script>
+<script type="text/javascript" src="js/jquery.raty.min.js"></script>
+<script type="text/javascript" src="js/jquery.leanModal.min.js"></script>
+
+</script>
 <script type="text/javascript">
-	function fnAddNew()
-	{
+$(function() {
+$('a[rel*=leanModal]').leanModal({ top : 120, closeButton: ".modal_close" });		
+});
+</script>
 
-		document.getElementById("td1").style.display="";
-		document.getElementById("td2").style.display="";
-                document.getElementById("td2a").style.display="";
-                document.getElementById("td2b").style.display="";
-		document.getElementById("td3").style.display="";
-		document.getElementById("td4").style.display="";
-	}
-	function fnCancel()
-	{
-		document.getElementById("td1").style.display="none";
-		document.getElementById("td2").style.display="none";
-		document.getElementById("td3").style.display="none";
-		document.getElementById("td4").style.display="none";
-	}
+<script type="text/javascript">
 
-	function fnSave()
-	{
-		frmMeanings.action="?Save=Yes&wordid="+document.getElementById("hidWordId").value;
-		frmMeanings.method="post";
-		frmMeanings.submit();
-	}
 
+	
+        $(document).ready(function(){
+
+
+           $('div[id*=overallrating]').each(function() {
+
+		$(this).raty({
+                    readOnly : true,
+                    half  : true,
+                    space : false,
+		    score: function() {
+    return $(this).attr('data-score');
+  }
+              });
+
+
+             });
+
+
+           $('div[id*=individualrating]').each(function() {
+
+		$(this).raty({
+                    readOnly : false,
+                    half  : true,
+                    space : false,
+		    score: function() {
+    return $(this).attr('data-score');
+  }	,
+		    click: function(score, evt) {
+						$.post("saveRating.php?score="+score+"&meaning_id="+$("#meaning"+$(this).attr('value')).attr('value'), 	$("#meaningform").serialize(), function(data) {
+	//alert(data);
+	//alert($(this).attr('value'));
+				});						 
+						   //alert('ID: ' + $(this).attr('id') + "\nscore: " + score + "\nevent: " + evt);
+
+						}
+              });
+
+
+             });
+
+
+        });
+	  
+	
+
+        function saveRating()
+         {
+
+		meaningform.action="?rate=Yes&wordid="+document.getElementById("hidWordId").value;
+		meaningform.method="post";
+		meaningform.submit();
+
+
+         }
+
+
+	$(document).ready(function(){
+			$("#meaningform").validate({
+				debug: false,
+				rules: {
+					wordmeaning: "required",
+		                        language: "required",
+		                        comment: "required",
+		                        reference: "required"
+				},
+				messages: {
+					wordmeaning: "Invalid meaning.",
+		                        language: "Invalid language.",
+		                        comment: "Invalid omment.",
+		                        reference: "Invalid reference."
+					},
+				submitHandler: function(form) {
+				$.post('saveMeaning.php', $("#meaningform").serialize(), function(data) {
+				//alert(data);
+				//alert( $("#hidWordId").value);
+
+				window.location.href =  "meanings.php?wordid="+ $("#hidWordId").val() +"&word="+ $("#hidWord").val();				
+				});
+			}
+		});
+                
+            
+	});
 </script>
 
 </head>
-<body >
-<form action="" method="POST" id="frmMeanings"">
+<body>
+
+	<form name="meaningform" id="meaningform" method="post" >  	
+	<div id="meaning">
+		<div id="meaning-ct">
+			<div id="meaning-header">
+				<h2>Add Meaning</h2>
+				<a class="modal_close" href="#"></a>
+			</div>
+		
+		
+			
+			  <div class="txt-fld">
+			    <label for="">Meaning</label>
+				<input type="text" name="wordmeaning" id="wordmeaning"  class="good_input">
+			  </div>
+			  <div class="txt-fld" >
+			    <label for="">Language</label>
+				    <select id="language" name="language">                                  
+						<?php while ($row = mysql_fetch_array($resultLanguages, MYSQL_ASSOC)){
+						echo "<option value=".$row['id'].">".$row['language']."</option>";
+						}
+						?>
+				    </select>
+			  </div>
+			  <div class="txt-fld">
+			    <label for="">Comment</label>
+			    <input id="" name="comment" type="text" />
+			  </div>
+			  <div class="txt-fld">
+			    <label for="">Reference</label>
+			    <input id="" name="reference" type="text" />
+
+			  </div>
+			  <div class="btn-fld">
+			  	<button type="submit"  >Save&raquo;</button>
+		          </div>
+                                 
+
+		</div>
+	</div>
+
+
 	<div id="wrapper">
 		<div id="wrapper2">
 			<!-- end #header -->
@@ -112,53 +224,88 @@ Released   : 20120617
 	</div>
 	<div id="footer-content-wrapper">
 		<div id="footer-content">
-			<div id="column1">
-				<h2><?php if(isset($_GET["word"])) echo $_GET["word"] ?></h2>
-				<ul>
+
+                                        <div id="calander">
+				<h2><?php  echo $word ?></h2>
+					<?php
+                                        $i=0; 
+     				        echo "<table cellspacing='12px' cellpadding='2px' border='0' >";
+     				        echo "<tr><th align='left'>Meaning</th><th align='left'>The average rating on 5 </th><th align='left'>Your rating</th></tr>";
+                                        while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+                                        { 
+					
+                                          $meaning=$row['meaning'];
+					  $meaningid=$row['id'];
+					  $comments= 	$row['comments'];
+					  $reference= 	$row['reference'];
+					  $language=	$row['unicodelanguage'];
+     				          echo "<tr><td>";
+                                          echo "<div  id='meaning".$i."' value='".$meaningid."'>(".					  $language.")".$meaning;
+					  echo "</br>";	
+					  echo "Comments:".$comments;
+					  echo "</br>";	
+					  echo "Reference:<a href='".$reference."'>.$reference.</a>";
+					  echo "</div>";
+     				          echo "</td>";
+                                          
+                                          $avg = mysql_query("select avg(rating) from rating where meaning_id ='$meaningid' ");
+
+                                          if($avg)
+                                           {
+                                            while($row = mysql_fetch_array($avg))
+						{
+						      $rating=$row['avg(rating)'];
+
+						}
+
+                                           }
+                                          else
+                                            die("Hey,".mysql_error());    // Thanks to Pekka for pointing this out. 
+                                           
+					echo "<td><div class=\"star\" value=\"$i\" id=\"overallrating$i\" data-score=\"$rating\">".$row['meaning'];
 				
-					<?php while ($row = mysql_fetch_array($result, MYSQL_ASSOC)){
-					echo "<li>".$row['meaning']."</li>";
+                                          $avg = mysql_query("select avg(rating) from rating where meaning_id ='$meaningid' and rated_by='$_SESSION[username]'");
+
+                                          if($avg)
+                                           {
+                                            while($row = mysql_fetch_array($avg))
+						{
+						      $rating=$row['avg(rating)'];
+						}
+
+                                           }
+                                          else
+                                            die("Hey,".mysql_error());    // Thanks to Pekka for pointing this out. 
+                                           
+					echo "<td><div class=\"star\" value=\"$i\" id=\"individualrating$i\" data-score=\"$rating\">".$row['meaning'];
+
+
+					#echo "<input type=\"text\" name=\"reason[]\" placeholder=\"Rater's comments \"/>"
+					echo "</li></div></td></tr>";
+                                        
+                                        $i++;
+					
 					}
+					echo "</table>";	
+                                        #echo "<input type=\"button\" id=\"rate\" value=\"Rate\" onclick=\"saveRating();\" ></input>";
 					?>
 
-				</ul>
+				<div style="clear: both;">&nbsp;</div>
+				<div style="clear: both;">&nbsp;</div>
+				<div class="menulinks">
+					<a id='go' rel='leanModal'   href='#meaning'>Add Meaning</a> &nbsp;&nbsp;
+					<a id='go' rel='leanModal'   href='words.php?arg1='>Back</a> 
+				</div>
+			    </div>	
 			</div>
-		</div>
 	</div>
 
-	<div id="footerlink">
-		<ul>
-				<?php
-				  echo "<table border=\"0\"/><tr>";
-				  echo "<td><a href=\"#\" onclick=\"fnAddNew();\">Add New</a></td>";
-				  echo "<td style=\"display:none\" id=\"td1\"><input type=\"text\" name=\"txtMeaning\" size=\"15\" placeholder=\"Meaning\"></td>";
-				  echo "<td style=\"display:none\" id=\"td2\"><select id=\"cmbLanguage\"";
-				  echo "name=\"cmbLanguage\">";
-                                  
-				?>
-					<?php while ($row = mysql_fetch_array($resultLanguages, MYSQL_ASSOC)){
-					echo "<option value=".$row['id'].">".$row['language']."</option>";
-					}
-					?>
-				<?php
- 				  echo "</select></td>";
-                                  echo "<td style=\"display:none\" id=\"td2a\"><input type=\"text\" name=\"txtComment\" size=\"15\" placeholder=\"Comment\"></td>";
-                                  echo "<td style=\"display:none\" id=\"td2b\"><input type=\"text\" name=\"txtReference\" size=\"15\" placeholder=\"Reference\"></td>";
-				  echo "<td style=\"display:none\" id=\"td3\"><a href=\"#\" onclick=\"fnSave();\">Save</a></td>";
-				  echo "<td style=\"display:none\" id=\"td4\"><a href=\"#\" id=\"action\" onclick=\"fnCancel();\">Cancel</a></td>";
-				  echo "</tr>";
-				  echo "</table>";
-
-
-				?>
-
-		</ul>
-	</div>	
 	<!-- end #footer -->
 
-	<input type="hidden" value="<?php echo $_GET['wordid'] ?>" id="hidWordId" name="hidWordId">
-	<input type="hidden" value="<?php echo $_GET['word'] ?>" id="hidWord" name="hidWord">
+	<input type="hidden" value="<?php echo $wordid ?>" id="hidWordId" name="hidWordId">
+	<input type="hidden" value="<?php echo $word ?>" id="hidWord" name="hidWord">
 </form>
+
 </body>
 </html>
 

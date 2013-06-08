@@ -19,13 +19,14 @@ Released   : 20120617
 <title>rasi</title>
 
 
-<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"></script> 
 
-
-<link href="style.css" rel="stylesheet" type="text/css" media="screen" />
-<link href="popup-style.css" rel="stylesheet" type="text/css" media="screen" />
+<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="js/jQuery Validation Plugin 1.9.0.js"></script>
+<link href="styles/style.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="styles/popup-style.css" rel="stylesheet" type="text/css" media="screen" />
 <script type="text/javascript" src="js/jquery.leanModal.min.js"></script>
+
+
 
 
 
@@ -70,7 +71,7 @@ $(document).ready(function(){
 			rules: {
 				username: "required",
                                 password: "required",
-				email	: "required",
+				email	: "required"
 			},
 			messages: {
 				username: "Please let us know who you are.",
@@ -113,7 +114,7 @@ $(document).ready(function(){
 			  <div class="txt-fld">
 			    <label for="">Password</label>
 
-			    <input name="password"  id="password"type="text" />
+			    <input name="password"  id="password"type="password" />
 
 			  </div>
 			  <div class="btn-fld">
@@ -143,7 +144,7 @@ $(document).ready(function(){
 			  </div>
 			  <div class="txt-fld">
 			    <label for="">Password</label>
-			    <input id="" name="password" type="text" />
+			    <input id="" name="password" type="password" />
 
 			  </div>
 			  <div class="btn-fld">
@@ -163,18 +164,18 @@ $(document).ready(function(){
 
 
 <div class="menulinks">
-			<strong>Examples:</strong>
-			<a id="go" id="login" rel="leanModal"  href="#login">Join</a> | <a id="go" rel="leanModal"  id ="signup" href="#signup">Sign Up</a>
+			<strong>Lets start ?</strong>
+			<a id="go"  rel="leanModal"  href="#login">Join</a> | <a id="go" rel="leanModal"  href="#signup">Sign Up</a>
 		</div>
 
 		<div id="banner-wrapper">
 			
-			<img src="images/banner-image.jpg" width="86%" style="padding-bottom:200px";/>		
+			<img src="images/banner-image.jpg" width="820px" height="380px" />		
 		</div>
 			<div id="content">
 				<div class="post">
 					<h2 class="title"><a href="#">Welcome to rasi </a></h2>
-					<p class="meta"><span class="date">feb 27, 2013</span><span class="posted">Posted by <a href="#">FSMK</a></span></p>
+					<p class="meta"><span class="date">feb 27, 2013</span><span class="posted">Posted by <a href="http://fsmk.org/">FSMK</a></span></p>
 					<div style="clear: both;">&nbsp;</div>
 					<div class="entry">
 						<p>Sample text<strong>Sample text </strong>, Sample text, Sample text Sample text Sample textSample text Sample textSample text. Sample textSample text Sample text Sample text Sample text Sample textSample text text Sample textSample text. Sample textSample text Sample text Sample text Sample text Sample textSample text  text Sample textSample text. Sample textSample text Sample text Sample text Sample text Sample textSample text  text Sample textSample text. Sample textSample text Sample text Sample text Sample text Sample textSample text </p>

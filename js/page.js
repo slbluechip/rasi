@@ -1,22 +1,32 @@
+
 $("document").ready(function() {
-	$("#wordlist").load("loadwords.php?action=get_rows");
-	
-	$.get("loadwords.php?action=row_count", function(data) {
+
+	$("#wordlist").load("loadwords.php?action=get_rows&arg1="+$("#character").val());
+
+	$.get("loadwords.php?action=row_count&arg1="+$("#character").val(), function(data) {
 		$("#page_count").val(Math.ceil(data / 10));
 		generateRows(1);
 	});
-	
+
 
 });
 
 function generateRows(selected) {
 	var pages = $("#page_count").val();
 	
-	if (pages <= 5) {
-		$("#wordlist").after("<div id='paginator'><a href='#' class='pagor selected'>1</a><a href='#' class='pagor'>2</a><a href='#' class='pagor'>3</a><a href='#' class='pagor'>4</a><a href='#' class='pagor'>5</a><div style='clear:both;'></div></div>");
+	if (pages <= 5 ) {
+			var pagers="";
+			if(pages>1)
+			for (i = 1; i <= pages; i++) {
+					pagers += "<a href='#' class='pagor selected'>" + i + "</a>";
+			}
+			else
+			pagers="";
+
+		$("#wrapper2").after("<div id='paginator' >"+pagers+"<div style='clear:both;'></div></div>");
 		$(".pagor").click(function() {
 			var index = $(".pagor").index(this);
-			$("#wordlist").load("loadwords.php?action=get_rows&start=" + index);
+			$("#wordlist").load("loadwords.php?action=get_rows&arg1="+$("#character").val()+"&start=" + index);
 			$(".pagor").removeClass("selected");
 			$(this).addClass("selected");
 		});		
@@ -34,7 +44,7 @@ function generateRows(selected) {
 			pagers += "<div style='float:left;padding-left:6px;padding-right:6px;'>...</div><a href='#' class='pagor'>" + Number(pages) + "</a><div style='clear:both;'></div></div>";
 			
 			$("#paginator").remove();
-			$("#wordlist").after(pagers);
+			$("#wrapper2").after(pagers);
 			$(".pagor").click(function() {
 				updatePage(this);
 			});
@@ -51,11 +61,11 @@ function generateRows(selected) {
 			pagers += "<div style='clear:both;'></div></div>";
 			
 			$("#paginator").remove();
-			$("#wordlist").after(pagers);
+			$("#wrapper2").after(pagers);
 			$(".pagor").click(function() {
 				updatePage(this);
-			});		
-		} else {
+			});}
+		else {
 			// Draw the number 1 element, then draw ... 2 before and two after and ... link to last
 			var pagers = "<div id='paginator'><a href='#' class='pagor'>1</a><div style='float:left;padding-left:6px;padding-right:6px;'>...</div>";
 			for (i = (Number(selected) - 2); i <= (Number(selected) + 2); i++) {
@@ -68,8 +78,9 @@ function generateRows(selected) {
 			pagers += "<div style='float:left;padding-left:6px;padding-right:6px;'>...</div><a href='#' class='pagor'>" + pages + "</a><div style='clear:both;'></div></div>";
 			
 			$("#paginator").remove();
-			$("#wordlist").after(pagers);
+			$("#wrapper2").after(pagers);
 			$(".pagor").click(function() {
+				
 				updatePage(this);
 			});			
 		}
@@ -81,7 +92,7 @@ function updatePage(elem) {
 	var selected = $(elem).text();
 
 	// First update wordlist
-	$("#wordlist").load("loadwords.php?action=get_rows&start=" + (selected - 1));
+	$("#wordlist").load("loadwords.php?action=get_rows&arg1="+$("#character").val()+"&start=" + (selected - 1));
 	
 	// Then update links
 	generateRows(selected);

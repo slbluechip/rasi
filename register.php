@@ -5,6 +5,7 @@
         // tutorial assumes a connection is made from
         // this existing file.
 
+       	session_start();
         include ("dbConfig.php");
 
         $DB = new DBConfig();

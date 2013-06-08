@@ -1,6 +1,4 @@
-<?php
-        session_start();
-?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <!--
 Design by Free CSS Templates
@@ -19,17 +17,14 @@ Released   : 20120617
 <meta name="description" content="" />
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>rasi</title>
-<link href="http://fonts.googleapis.com/css?family=Abel" rel="stylesheet" type="text/css" />
 
-<link href="style.css" rel="stylesheet" type="text/css" media="screen" />
 
-<script src="http://www.google.com/jsapi"></script>
-<script>
-	google.load("jquery", "1.3.2");
-</script>
+<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+<link href="styles/style.css" rel="stylesheet" type="text/css" media="screen" />
+
+
 <script type="text/javascript" src="js/page.js"></script>
-<script>
-</script>
+
 
 <style type="text/css">
 a.pagor {
@@ -62,7 +57,13 @@ a.selected {
 
 
 <div id="wrapper">
+
+
+	<div class="menulinks" style="padding-left:1160px;padding-top:10px;">
+		<a id='go' rel='leanModal'   href='logout.php'>Logout</a> 
+	</div>
 	<div id="wrapper2">
+
 		<div id="wordlist">
 				
 		</div>
@@ -73,16 +74,20 @@ a.selected {
 			<ul>	
 				<?php
 				for ($i=65; $i<=90; $i++) {
-					echo "<li><a id='character' href=words.php?arg1=".$i.">".chr($i)."</a></li>";
+					echo "<li><a id='character".$i."' href=words.php?arg1=".$i." >".chr($i)."</a></li>";
 				}
 				?>		
 			</ul>
 		</div>
+		<div style="clear: both;">&nbsp;</div>
+		<div style="clear: both;">&nbsp;</div>
 		
 	</div>
+
 </div>
 
-<input type="hidden" name="page_count" id="page_count" />
+<input type="hidden" name="page_count" id="page_count"  />
+<input type="hidden" name="character" id="character" value="<?php if(isset($_GET['arg1']))  echo $_GET['arg1']  ?>" />
 
 <!-- end #footer -->
 </body>
