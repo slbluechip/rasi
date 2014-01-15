@@ -118,7 +118,7 @@ $(document).ready(function(){
 
 			  </div>
 			  <div class="btn-fld">
-			  	<button type="submit"  name="submit">Login&raquo;</button>
+			  	<button type="submit"  name="submit" >Login&raquo;</button>
 		          </div>
 			 </form>
 		</div>
@@ -193,3 +193,4 @@ $(document).ready(function(){
 <!-- end #footer -->
 </body>
 </html>
+
