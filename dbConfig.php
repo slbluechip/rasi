@@ -1,4 +1,3 @@
-
 <?php
 class DBConfig {
 
@@ -87,5 +86,6 @@ class DBConfig {
         }
     }
 } 
+  
   
 ?>
